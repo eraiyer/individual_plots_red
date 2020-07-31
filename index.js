@@ -1,9 +1,9 @@
-// Created by Era Iyer
+// Created by Era Iyer 
 // July 2020
 // index.js file
-// generates state red line chart with interactive component using d3 library 
+// generates state green line chart with interactive component using d3 library 
 // resources: https://www.d3-graph-gallery.com/graph/line_smallmultiple.html for small multiple line chart
-//            https://bl.ocks.org/Fil/dd3ea32358401e60d8898b5524a71118 for mouseover points      
+//            https://bl.ocks.org/Fil/dd3ea32358401e60d8898b5524a71118 for mouseover points  
 
 var margin = {top: 50, right: 0, bottom: 50, left: 10},
     width = 150 - margin.left - margin.right,
@@ -48,7 +48,7 @@ var margin = {top: 50, right: 0, bottom: 50, left: 10},
       //y axis scales unique to each chart 
       var ty = y.set(this, d3.scaleLinear()
         .domain([0, d3.max(d.values, function(d) { return +d.avg_cases; })])
-        .range([height, 0]));
+        .range([height-10, 0]));
 
       /* // code for shading area under the line
       area.set(this, d3.area()
@@ -63,7 +63,8 @@ var margin = {top: 50, right: 0, bottom: 50, left: 10},
 
   svg
     .append("g")
-    .attr("transform", "translate(0," + height + ")")
+    // .attr("transform", "translate(0," + height + ")")
+    .attr("transform", "translate(0," + (height-10)+ ")")
     .style("font-size", "8px")
     .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b"))); // plotting x axis for each svg plot
   svg
@@ -76,7 +77,7 @@ var margin = {top: 50, right: 0, bottom: 50, left: 10},
   svg.each(function(d){
     var ty = yy.set(this, d3.scaleLinear()
       .domain([0, d3.max(d.values, function(d) { return +d.avg_cases; })])
-      .range([height, 0]));
+      .range([height-10, 0]));
 
     var svg = d3.select(this),
       filtered_data = svg.datum().values;
@@ -88,7 +89,7 @@ var margin = {top: 50, right: 0, bottom: 50, left: 10},
     // creates dot to follow over paths 
     focus.append("circle")
       .attr("fill", function(d) {return (d.values[0].color);})
-      .attr("r", 4);
+      .attr("r", 5);
         
     // creates box to hold text 
     focus.append("rect")
@@ -139,7 +140,27 @@ var margin = {top: 50, right: 0, bottom: 50, left: 10},
     .append("text")
     .attr("text-anchor", "middle")
     .attr("transform",
-          "translate(" + ((width-margin.left)/2) + " ," + (height+40) + ")") //centers titles
+          "translate(" + ((width-margin.left)/2) + " ," + (height+20) + ")") //centers titles
     .text(function(d){ return(d.key)})
     .style("fill", "black");
+
+    // total cases title
+    svg
+    .append("text")
+    .style("font-size", "10px")
+    .attr("text-anchor", "middle")
+    .attr("transform",
+          "translate(" + ((width-margin.left)/2) + " ," + (height+37) + ")") //centers titles
+    .text(function(d){ return("Total Cases: "+d.values[0].total_cases)})
+    .style("fill", "grey");
+  
+    // recent/new day title
+    svg
+    .append("text")
+    .style("font-size", "10px")
+    .attr("text-anchor", "middle")
+    .attr("transform",
+          "translate(" + ((width-margin.left)/2) + " ," + (height+47) + ")") //centers titles
+    .text(function(d){ return("Recent/New Day: "+ d.values[d.values.length-1].new_cases)})
+    .style("fill", "grey");
 })
