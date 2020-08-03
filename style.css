@@ -1,21 +1,13 @@
 .overlay {
-    fill: none;
-    pointer-events: all;
-  }
-  
-  .focus text {
-    font-size: 12px;
-  }
-  
-  .tooltip {
-    fill: white;
-    stroke: #000;
-  }
-  
-  .tooltip-date, .tooltip-info {
-    font-weight: bold;
-  }
+  fill: none;
+  pointer-events: all;
+}
 
-  .focus{
-    z-index: 1000000;
-  }
+.focus text {
+  font-size: 10px;
+}
+
+.tooltip {
+  fill: white;
+  stroke: #000;
+}
